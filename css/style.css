@@ -1,0 +1,158 @@
+/* 
+    Created on : 17-Feb-2021, 6:04:59 PM
+    Author     : Vinay
+*/
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Nunito', sans-serif;
+}
+
+#header{
+    box-shadow: 1px 1px 4px #888888;;
+}
+.navigation{
+    display:inline-block;
+}
+
+.navigation > ul{
+    display: inline-block;
+    list-style-type: none;
+}
+.navigation li{
+    display: inline;
+    margin: 20px;
+}
+
+#mainNavigation{
+    float: right;
+    padding: 35px 45px;
+}
+
+#branding img{
+    width: 90px;
+    margin-left: 20px;
+}
+
+#branding > div{
+    position: relative;
+    display: flex;
+}
+#brandName{
+    font-size: 8vh;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 120px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 900;
+}
+
+#container{
+    position: relative;
+    display: flex;
+    height: 70vh;
+    margin-top: 32px; 
+    width: 100%;
+}
+
+#bookButton{
+    width: 100%;
+    height: 3em;
+    line-height: 3;
+    background-color: #fbb031;
+    border-radius: 0 0 1em 1em;
+    margin-left: auto;
+    margin-right: auto;
+    border:none;
+}
+
+#imageBackground{
+    background-color: #fbb031;
+    height: 100%;
+    width: 40vw;
+    border-radius: 0px 40px 40px 0px;
+}
+
+
+
+#taxiImage{
+    width: 50vw;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#formContainer{
+    margin-left: 10%;
+    margin-top: 32px;
+}
+
+#formContainer form{
+    height:100%;
+}
+
+#navCabType li{
+    margin: 0;
+    width: 100%;
+}
+#navCabType ul{
+    padding: 0%;
+    margin: 16px;
+    width: 100%;
+    margin-left: 0px;
+}
+.select{
+    margin-bottom: 16px;
+}
+
+
+/* Reset Select */
+select {
+  appearance: none;
+  outline: 0;
+  box-shadow: none;
+  border: #fbb031 solid 2px;
+  background: #fff;
+  
+  background-image: none;
+}
+/* Remove IE arrow */
+select::-ms-expand {
+  display: none;
+}
+/* Custom Select */
+.select {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 3em;
+  line-height: 3;
+  background: #fbb031;
+  overflow: hidden;
+  border-radius: .25em;
+}
+select {
+  flex: 1;
+  padding: 0 .5em;
+  color: #000;
+  cursor: pointer;
+}
+/* Arrow */
+.select::after {
+  content: '\25BC';
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0 1em;
+  background: #fbb031;
+  cursor: pointer;
+  pointer-events: none;
+  -o-transition: .25s all ease;
+  transition: .25s all ease;
+}
+/* Transition */
+.select:hover::after {
+  color: #f39c12;
+}
