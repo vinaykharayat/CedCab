@@ -19,6 +19,9 @@ $locations = array(
 
 $luggageFare = array(50, 100, 200);
 
+/*******************************************************************************
+ * Based on user selection, this assigns luggage value to below luggage variable
+ *******************************************************************************/
 $luggage = 0;
 
 if (isset($_POST['luggage'])) {

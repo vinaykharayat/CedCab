@@ -40,7 +40,7 @@
     display: flex;
 }
 #brandName{
-    font-size: 8vh;
+    font-size: 4vw;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -52,7 +52,7 @@
 #container{
     position: relative;
     display: flex;
-    height: 70vh;
+    height: 100%;
     margin-top: 32px; 
     width: 100%;
 }
@@ -75,12 +75,17 @@
     border-radius: 0px 40px 40px 0px;
 }
 
-
-
 #taxiImage{
     width: 50vw;
     position: absolute;
     top: 50%;
+    transform: translateY(-50%);
+}
+
+#authImage{
+    width: 50vw;
+    position: absolute;
+    top: 70%;
     transform: translateY(-50%);
 }
 
@@ -107,7 +112,39 @@
     margin-bottom: 16px;
 }
 
+.inputBox{
+  appearance: none;
+  outline: 0;
+  box-shadow: none;
+  border: #fbb031 solid 2px;
+  background: #fff;
+  flex: 1;
+  padding: 0 .5em;
+  color: #000;
+  cursor: pointer;
+  background-image: none;
+}
 
+.inputBox::-ms-expand {
+  display: none;
+}
+
+.inputDiv{
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 3em;
+  line-height: 3;
+  background: #fbb031;
+  overflow: hidden;
+  border-radius: .25em;
+  margin-bottom: 2vh;
+}
+
+.inputDiv label{
+    padding: 0px 10px;
+    width: 7vw;
+}
 /* Reset Select */
 select {
   appearance: none;
@@ -115,7 +152,6 @@ select {
   box-shadow: none;
   border: #fbb031 solid 2px;
   background: #fff;
-  
   background-image: none;
 }
 /* Remove IE arrow */

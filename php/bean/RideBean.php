@@ -33,7 +33,7 @@ class RideBean implements \JsonSerializable {
         $this->cabType = $cabType;
     }
 
-    private function calculateFinalFare($fare) {
+    private function calculateFinalFare($fare /*This is an array with pricings of different type of cabs*/) {
         for ($i = 0; $i < $this->distance; $i++) {
             if ($i < 10) {
                 $this->totalFare += $fare[1];
@@ -67,7 +67,7 @@ class RideBean implements \JsonSerializable {
                 break;
         }
     }
-
+    
     function jsonSerialize() {
         return get_object_vars($this);
     }
