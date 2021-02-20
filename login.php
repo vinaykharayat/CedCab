@@ -9,7 +9,7 @@ include_once 'header.php';
             <img src="./images/authentication.png" alt="Taxi Image" id="authImage"/>
         </div>
         <div id="formContainer">
-            <h1 style="display: inline; font-size: 50px; font-weight: 400">Login to continue!</h1>
+            <h1 id="formHeading" style="display: inline; font-size: 50px; font-weight: 400">Login to continue!</h1>
             <form id="rideBookingForm">
                 <nav class="navigation" id="authType">
                     <ul>
@@ -36,22 +36,22 @@ include_once 'header.php';
                     </div>
                     <div class="inputDiv" id="emailInput">
                         <label for="email">Email</label>
-                        <input name="email" type="email" class="inputBox" placeholder="name@email.com">
+                        <input id="email" name="email" type="email" class="inputBox" placeholder="name@email.com" required="required"><u><span id="verifyEmailButton" hidden="hidden">Verify Email!</span></u><span id="invalidEmail" class="invalid" hidden="hidden">Email taken!</span>
                     </div>
                     
                     <div class="inputDiv" id="phoneInput">
                         <label for="mobile">Mobile</label>
-                        <input name="mobile" type="tel" class="inputBox" placeholder="+915555555555">
+                        <input name="mobile" type="tel" class="inputBox" placeholder="+915555555555"><u><span id="verifyPhoneButton" hidden="hidden">Verify Phone!</span></u><span class="invalid" id="invalidPhone" hidden="hidden">Already registered!</span>
                     </div>
 
                     <div class="inputDiv" id="passwordInput">
                         <label for="name">Password</label>
-                        <input name="password" type="password" class="inputBox" placeholder="******">
+                        <input name="password" type="password" class="inputBox" placeholder="Password (>6)"><span id="invalidLength" class="invalid" hidden="hidden">Password too short! </span>
                     </div>
                     
                     <div class="inputDiv" id="conPasswordInput">
                         <label for="password">Confirm</label>
-                        <input name="conPass" type="password" class="inputBox" placeholder="******">
+                        <input name="conPass" type="password" class="inputBox" placeholder="******"><span class="invalid" id="invalidConPassword" hidden="hidden">Password did not match!</span><span class="valid" id="validConPassword" hidden="hidden">Password matched!</span>
                     </div>
                 </div>
                 <div></div>

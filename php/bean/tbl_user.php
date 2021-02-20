@@ -1,11 +1,19 @@
 <?php
 
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-class tbl_user extends dbCon{
+//die(dirname(getcwd()));
+session_start();
+require_once dirname(getcwd())."/php/dao/Dbcon.php";
+
+class tbl_user extends Dbcon {
+    
+    const sourcetbl = "tbl_user";
+    const SUCCESS_CODE = 200;
+    const FAILURE_CODE = -1;
     private $user_id;
     private $email_id;
     private $name;
@@ -14,26 +22,56 @@ class tbl_user extends dbCon{
     private $status;
     private $password;
     private $is_admin;
-    
-    function __construct($user_id, $email_id, $name, $dateofsignup, $mobile, $status, $password, $is_admin) {
-        $this->user_id = $user_id;
-        $this->email_id = $email_id;
-        $this->name = $name;
-        $this->dateofsignup = $dateofsignup;
-        $this->mobile = $mobile;
-        $this->status = $status;
-        $this->password = $password;
-        $this->is_admin = $is_admin;
-    }
-    
-    function signupLogin(){
-        if($this->is_admin==1){
-            
-        }else{
-            
-        }
+    public $conn;
+
+    function __construct() {
+        $dbcon = new Dbcon();
+        $this->conn = $dbcon->conn;
     }
 
+    public function LoginCheck($email, $password) {
+        $this->email = $email;
+        $this->password = md5($password);
+
+        $query = "select * from `" . self::sourcetbl . "` where `email_id` = '$this->email' and `password` = '$this->password'";
+
+        $result = $this->conn->query($query);
+        if ($result->num_rows > 0) {
+            $user = $result->fetch_assoc();
+            if ($user['is_admin'] == 1) {
+                $res = 1;
+                $_SESSION['user'] = $user;
+            } elseif ($user['active'] == 1) {
+                $res = 0;
+                $_SESSION['user'] = $user;
+            } else {
+                $res = -1;
+            }
+        } else {
+            $res = -2;
+        }
+        return $res;
+    }
+
+    public function signUp() {
+        $query = "insert into users(`user_id`, `email_id`, `name`,`password`, `dateofsignup`, `mobile`, `status`, `password`, `is_admin`) values(" . "'" . $this->user_id . "','" . $this->email_id . "', '" . $this->name . "', '" . $this->password . "', '" . $this->dateofsignup . "', '" . $this->mobile . "', '" . $this->status . "', '" . $this->password . "', '" . $this->is_admin . "')";
+        $result = $this->conn->query($query);
+        if ($result->num_rows > 0) {
+            return 200;
+        } else {
+            return $result;
+        }
+    }
+    
+    public function checkAvalability($columnName, $valueToCheck){
+        $query = "select * from ". self::sourcetbl." where `$columnName` = '$valueToCheck'";
+        $result = $this->conn->query($query);
+        if ($result->num_rows == 0) {
+            return self::SUCCESS_CODE;
+        } else {
+            return self::FAILURE_CODE;
+        }
+    }
 
     function getUser_id() {
         return $this->user_id;
@@ -98,7 +136,5 @@ class tbl_user extends dbCon{
     function setIs_admin($is_admin): void {
         $this->is_admin = $is_admin;
     }
-
-
 
 }
