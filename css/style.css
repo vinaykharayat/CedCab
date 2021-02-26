@@ -9,6 +9,8 @@
     font-family: 'Nunito', sans-serif;
 }
 
+
+
 #header{
     box-shadow: 1px 1px 4px #888888;;
 }
@@ -57,7 +59,7 @@
     width: 100%;
 }
 
-#bookButton{
+#bookButton, #login, #register{
     width: 100%;
     height: 3em;
     line-height: 3;
@@ -67,6 +69,7 @@
     margin-right: auto;
     border:none;
 }
+
 
 #imageBackground{
     background-color: #fbb031;
@@ -113,32 +116,32 @@
 }
 
 .inputBox{
-  appearance: none;
-  outline: 0;
-  box-shadow: none;
-  border: #fbb031 solid 2px;
-  background: #fff;
-  flex: 1;
-  padding: 0 .5em;
-  color: #000;
-  cursor: pointer;
-  background-image: none;
+    appearance: none;
+    outline: 0;
+    box-shadow: none;
+    border: #fbb031 solid 2px;
+    background: #fff;
+    flex: 1;
+    padding: 0 .5em;
+    color: #000;
+    cursor: pointer;
+    background-image: none;
 }
 
 .inputBox::-ms-expand {
-  display: none;
+    display: none;
 }
 
 .inputDiv{
-  position: relative;
-  display: flex;
-  width: 100%;
-  height: 3em;
-  line-height: 3;
-  background: #fbb031;
-  overflow: hidden;
-  border-radius: .25em;
-  margin-bottom: 2vh;
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 3em;
+    line-height: 3;
+    background: #fbb031;
+    overflow: hidden;
+    border-radius: .25em;
+    margin-bottom: 2vh;
 }
 
 .inputDiv label{
@@ -147,50 +150,50 @@
 }
 /* Reset Select */
 select {
-  appearance: none;
-  outline: 0;
-  box-shadow: none;
-  border: #fbb031 solid 2px;
-  background: #fff;
-  background-image: none;
+    appearance: none;
+    outline: 0;
+    box-shadow: none;
+    border: #fbb031 solid 2px;
+    background: #fff;
+    background-image: none;
 }
 /* Remove IE arrow */
 select::-ms-expand {
-  display: none;
+    display: none;
 }
 /* Custom Select */
 .select {
-  position: relative;
-  display: flex;
-  width: 100%;
-  height: 3em;
-  line-height: 3;
-  background: #fbb031;
-  overflow: hidden;
-  border-radius: .25em;
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 3em;
+    line-height: 3;
+    background: #fbb031;
+    overflow: hidden;
+    border-radius: .25em;
 }
 select {
-  flex: 1;
-  padding: 0 .5em;
-  color: #000;
-  cursor: pointer;
+    flex: 1;
+    padding: 0 .5em;
+    color: #000;
+    cursor: pointer;
 }
 /* Arrow */
 .select::after {
-  content: '\25BC';
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 0 1em;
-  background: #fbb031;
-  cursor: pointer;
-  pointer-events: none;
-  -o-transition: .25s all ease;
-  transition: .25s all ease;
+    content: '\25BC';
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0 1em;
+    background: #fbb031;
+    cursor: pointer;
+    pointer-events: none;
+    -o-transition: .25s all ease;
+    transition: .25s all ease;
 }
 /* Transition */
 .select:hover::after {
-  color: #f39c12;
+    color: #f39c12;
 }
 
 .invalid{

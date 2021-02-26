@@ -26,8 +26,6 @@ function sendOTPToPhone($userPhone){
         "numbers" => $userPhone,
     );
     
-    $_SESSION["mobileotp"] = OTP;
-
     $curl = curl_init();
 
     curl_setopt_array($curl, array(
@@ -55,10 +53,10 @@ function sendOTPToPhone($userPhone){
     curl_close($curl);
 
     if ($err) {
-        echo "cURL Error #:" . $err;
         echo -1;
     } else {
-        echo $_SESSION["phoneotp"] = OTP;
+        $_SESSION["phoneotp"] = OTP;
+        echo 200;
     }
 }
 

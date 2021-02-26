@@ -1,5 +1,12 @@
 <?php
-include_once 'header.php';
+session_start();
+if ($_SESSION["user"]["is_admin"] == 1) {
+    header("Location: /php/admin/index.php");
+} else if (isset($_SESSION["user"]) && $_SESSION["user"]["is_admin"] != 1) {
+    include_once $_SERVER['DOCUMENT_ROOT'] . '/cedcab/php/user/layout/header.php';
+} else {
+    include_once 'header.php';
+}
 ?>
 <main>
     <div id="container">
@@ -46,26 +53,34 @@ include_once 'header.php';
             </form>
         </div>
     </div>
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Confirm Booking?</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" style="border:0;background-color: #fbb031">Book Now</button>
+        <div class="modal fade" id="confirmDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="false">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Confirm Booking?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                    </div>
+                    <div class = "modal-footer">
+                        <button type = "button" class = "btn btn-secondary" data-dismiss = "modal">Close</button>
+                        <button id = "confirmBooking" type = "button" class = "btn btn-primary" style = "border:0;background-color: #fbb031">Confirm Booking</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+
 </main>
 <?php
-include_once 'footer.php';
+if ($_SESSION["user"]["is_admin"] == 1) {
+    header("Location: " . $_SERVER['DOCUMENT_ROOT'] . "/cedcab/php/admin/index.php");
+} else if (isset($_SESSION["user"]) && $_SESSION["user"]["is_admin"] != 1) {
+    include_once $_SERVER['DOCUMENT_ROOT'] . '/cedcab/php/user/layout/footer.php';
+} else {
+
+
+    include_once 'footer.php';
+}
 ?>

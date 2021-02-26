@@ -5,17 +5,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-require_once './bean/RideBean.php';
-
-$locations = array(
-    "Charbagh" => 0,
-    "Indra Nagar" => 10,
-    "BBD" => 30,
-    "Barabanki" => 60,
-    "Faizabad" => 100,
-    "Basti" => 150,
-    "Gorakhpur" => 210
-);
+session_start();
+require_once $_SERVER['DOCUMENT_ROOT'].'/cedcab/php/bean/RideBean.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/cedcab/php/bean/tbl_location.php';
 
 $luggageFare = array(50, 100, 200);
 
@@ -41,20 +33,28 @@ if (isset($_POST['luggage'])) {
             break;
     }
 }
-$distance = calculateDistance(filter_input(INPUT_POST, "dropLocation"), filter_input(INPUT_POST, "pickupLocation"));
+$locationObj = new tbl_location();
+$dropLocation = $locationObj->getLocationNameDistance(filter_input(INPUT_POST, "dropLocation"));
+$pickupLocation = $locationObj->getLocationNameDistance(filter_input(INPUT_POST, "pickupLocation"));
+$distance = calculateDistance($dropLocation['distance'], $pickupLocation['distance']);
 
-$newRide = new RideBean(
-        filter_input(INPUT_POST, "dropLocation"),
-        filter_input(INPUT_POST, "pickupLocation"),
-        $luggage,
-        $distance,
-        filter_input(INPUT_POST, "cabType"));
+$newRide = new RideBean();
 
+$newRide->setDropLocation(filter_input(INPUT_POST, "dropLocation"));
+$newRide->setPickupLocation(filter_input(INPUT_POST, "pickupLocation"));
+$newRide->setLuggage($luggage);
+$newRide->setDistance($distance);
+$newRide->setCabType(filter_input(INPUT_POST, "cabType"));
 $totalFare = $newRide->calculateFare();
+
 header('Content-Type: application/json');
+$_SESSION["rideInfoWithId"] = $newRide->jsonSerialize(); //This sets location id to session
+
+$newRide->setDropLocation($newRide->getLocationNameDistance(filter_input(INPUT_POST, "dropLocation"))["name"]);
+$newRide->setPickupLocation($newRide->getLocationNameDistance(filter_input(INPUT_POST, "pickupLocation"))["name"]);
+
 print_r(json_encode($newRide->jsonSerialize()));
 
 function calculateDistance($dropLocation, $pickupLocation) {
-    $locations = &$GLOBALS['locations'];
-    return abs($locations[$pickupLocation] - $locations[$dropLocation]);
+    return abs($pickupLocation - $dropLocation);
 }

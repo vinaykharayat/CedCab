@@ -1,17 +1,59 @@
 <?php
 
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
-class tbl_location{
+require_once $_SERVER['DOCUMENT_ROOT'].'/cedcab/php/dao/Dbcon.php';
+
+class tbl_location extends Dbcon {
+
+    const sourcetbl = "tbl_location";
+
     private $id;
     private $name;
     private $distance;
     private $is_available;
+    private $locations;
     
+    function __construct() {
+        $this->getConn();
+    }
+
+
+    function getConn() {
+        $this->createConnection();
+    }
+
+    function getAllLocations() {
+        $query = "select * from `" . self::sourcetbl . "` where 1";
+        $result = $this->conn->query($query);
+        $locationsArr = array();
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $locationsArr[] = $row;
+            }
+            $this->makeAssocArray($locationsArr);
+            return 200;
+        } else {
+            return -1;
+        }
+    }
+
+    private function makeAssocArray($locationsArr) {
+        for ($i = 0; $i < count($locationsArr); $i++) {
+            $this->locations[$locationsArr[$i]["id"]] = array("name" => $locationsArr[$i]["name"], "distance" => $locationsArr[$i]["distance"]);
+        }
+    }
+
+    function getLocationNameDistance($id) {
+        $query = "select `name` , `distance` from `" . self::sourcetbl . "` where id='$id'";
+        $result = $this->conn->query($query);
+        return $result->fetch_assoc();
+    }
+
     function getId() {
         return $this->id;
     }
@@ -44,6 +86,12 @@ class tbl_location{
         $this->is_available = $is_available;
     }
 
+    function getLocations() {
+        return $this->locations;
+    }
+
+    function setLocations($locations): void {
+        $this->locations = $locations;
+    }
 
 }
-

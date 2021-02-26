@@ -7,13 +7,14 @@
  */
 //die(dirname(getcwd()));
 session_start();
-require_once dirname(getcwd())."/php/dao/Dbcon.php";
+require_once $_SERVER['DOCUMENT_ROOT']."/cedcab/php/dao/Dbcon.php";
 
 class tbl_user extends Dbcon {
-    
+
     const sourcetbl = "tbl_user";
     const SUCCESS_CODE = 200;
     const FAILURE_CODE = -1;
+
     private $user_id;
     private $email_id;
     private $name;
@@ -22,11 +23,15 @@ class tbl_user extends Dbcon {
     private $status;
     private $password;
     private $is_admin;
-    public $conn;
-
+    private $profilePicUrl;
+    
     function __construct() {
-        $dbcon = new Dbcon();
-        $this->conn = $dbcon->conn;
+        $this->getConn();
+    }
+
+
+    function getConn() {
+        $this->createConnection();
     }
 
     public function LoginCheck($email, $password) {
@@ -34,43 +39,55 @@ class tbl_user extends Dbcon {
         $this->password = md5($password);
 
         $query = "select * from `" . self::sourcetbl . "` where `email_id` = '$this->email' and `password` = '$this->password'";
-
         $result = $this->conn->query($query);
-        if ($result->num_rows > 0) {
+      
+        if ($result->num_rows>0) {
             $user = $result->fetch_assoc();
-            if ($user['is_admin'] == 1) {
+            if ($user['is_admin'] == 1) { //user is admin
                 $res = 1;
                 $_SESSION['user'] = $user;
-            } elseif ($user['active'] == 1) {
+            } elseif ($user['status'] == 1) { //if user is not admin and is active
                 $res = 0;
                 $_SESSION['user'] = $user;
             } else {
-                $res = -1;
+                $res = -1; //if user is not admin and is not active
             }
         } else {
-            $res = -2;
+            $res = -2; //user does not exist
         }
         return $res;
     }
 
     public function signUp() {
-        $query = "insert into users(`user_id`, `email_id`, `name`,`password`, `dateofsignup`, `mobile`, `status`, `password`, `is_admin`) values(" . "'" . $this->user_id . "','" . $this->email_id . "', '" . $this->name . "', '" . $this->password . "', '" . $this->dateofsignup . "', '" . $this->mobile . "', '" . $this->status . "', '" . $this->password . "', '" . $this->is_admin . "')";
-        $result = $this->conn->query($query);
-        if ($result->num_rows > 0) {
-            return 200;
+        $query = "insert into tbl_user(`email_id`, `name`,`password`, `dateofsignup`, `mobile`, `status`, `is_admin`, `profilePic`) values('" . $this->email_id . "', '" . $this->name . "', '" . md5($this->password) . "', now() , '" . $this->mobile . "', '" . 1 . "', '" . 0 . "', '" . $this->profilePicUrl . "')";
+        $this->conn->query($query);
+        if ($this->conn->errno == 0) {
+            if ($this->conn->affected_rows > 0) {
+                return 200;
+            } else {
+                return 100;
+            }
         } else {
-            return $result;
+            return $this->conn->error;
         }
     }
-    
-    public function checkAvalability($columnName, $valueToCheck){
-        $query = "select * from ". self::sourcetbl." where `$columnName` = '$valueToCheck'";
+
+    public function checkAvalability($columnName, $valueToCheck) {
+        $query = "select * from " . self::sourcetbl . " where `$columnName` = '$valueToCheck'";
         $result = $this->conn->query($query);
         if ($result->num_rows == 0) {
             return self::SUCCESS_CODE;
         } else {
             return self::FAILURE_CODE;
         }
+    }
+
+    function getProfilePicUrl() {
+        return $this->profilePicUrl;
+    }
+
+    function setProfilePicUrl($profilePicUrl): void {
+        $this->profilePicUrl = $profilePicUrl;
     }
 
     function getUser_id() {
