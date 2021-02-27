@@ -103,10 +103,17 @@ function getData(status, showStatus, isAdmin) {
 
                 tableRow.appendChild(Btn.cloneNode(true));
                 if (response[i]["status"] == "1") {
+                    if (isAdmin == "admin") {
+                        BtnAttr.value = "btn btn-success mx-2 my-2";
+                        Btn.setAttributeNode(BtnAttr);
+                        Btn.innerText = "Approve";
+                        tableRow.appendChild(Btn.cloneNode(true));
+                    }
                     BtnAttr.value = "btn btn-danger mx-2 my-2";
                     Btn.setAttributeNode(BtnAttr);
                     Btn.innerText = "Cancel";
                     tableRow.appendChild(Btn.cloneNode(true));
+
                 }
                 tableBody.appendChild(tableRow);
             }

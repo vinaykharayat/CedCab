@@ -7,7 +7,7 @@
  */
 //die(dirname(getcwd()));
 session_start();
-require_once $_SERVER['DOCUMENT_ROOT']."/cedcab/php/dao/Dbcon.php";
+require_once $_SERVER['DOCUMENT_ROOT'] . "/cedcab/php/dao/Dbcon.php";
 
 class tbl_user extends Dbcon {
 
@@ -24,11 +24,11 @@ class tbl_user extends Dbcon {
     private $password;
     private $is_admin;
     private $profilePicUrl;
-    
+    private $allUsersArr;
+
     function __construct() {
         $this->getConn();
     }
-
 
     function getConn() {
         $this->createConnection();
@@ -40,8 +40,8 @@ class tbl_user extends Dbcon {
 
         $query = "select * from `" . self::sourcetbl . "` where `email_id` = '$this->email' and `password` = '$this->password'";
         $result = $this->conn->query($query);
-      
-        if ($result->num_rows>0) {
+
+        if ($result->num_rows > 0) {
             $user = $result->fetch_assoc();
             if ($user['is_admin'] == 1) { //user is admin
                 $res = 1;
@@ -80,6 +80,42 @@ class tbl_user extends Dbcon {
         } else {
             return self::FAILURE_CODE;
         }
+    }
+
+    function getAllUsers() {
+        $query = "select * from " . self::sourcetbl . " where 1";
+        $result = $this->conn->query($query);
+
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $this->allUsersArr[] = $row;
+            }
+            return 200;
+        } else {
+            return -1;
+        }
+    }
+
+    function blockUnblockUser($userId, $blockUser) {
+        if ($blockUser == "true") {
+            $query = "update `" . self::sourcetbl . "` set `status`= '0' where `user_id`= '$userId'";
+        } else {
+            $query = "update `" . self::sourcetbl . "` set `status`= '1' where `user_id`= '$userId'";
+        }
+        $this->conn->query($query);
+        if($this->conn->affected_rows>0){
+            return 200;
+        }else{
+            return 500;
+        }
+    }
+
+    function getAllUsersArr() {
+        return $this->allUsersArr;
+    }
+
+    function setAllUsersArr($allUsersArr): void {
+        $this->allUsersArr = $allUsersArr;
     }
 
     function getProfilePicUrl() {

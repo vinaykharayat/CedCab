@@ -15,7 +15,7 @@
             <nav id="mainNavigation" class="navigation">
                 <ul>
                     <li><a href="index.php">Home</a></li>
-                    <li><a href="contact.php">Contact</a></li>
+                    <li><a href="/cedcab/php/admin/AllUsers.php">Users</a></li>
                     <li><a href="/cedcab/php/admin/AllRides.php">All Rides</a></li>
                     <li><form style="display: inline" action="/cedcab/php/logout.php" method="post">
                             <input type="hidden" value="true" name="userLogout">
