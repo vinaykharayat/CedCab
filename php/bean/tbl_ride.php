@@ -60,6 +60,21 @@ class tbl_ride extends Dbcon {
             return -1;
         }
     }
+    
+    function getAllRidesAdmin() {
+        $query = "select * from `" . self::SOURCE_TBL . "` where '1'";
+
+        $result = $this->conn->query($query);
+
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $this->allRidesArr[] = $row;
+            }
+            return 200;
+        } else {
+            return -1;
+        }
+    }
 
     function calculateDistance($dropLocation, $pickupLocation) {
         return abs($pickupLocation - $dropLocation);
@@ -70,16 +85,44 @@ class tbl_ride extends Dbcon {
         $result = $this->conn->query($query);
         if ($this->conn->affected_rows > 0) {
             return $result->num_rows;
-        }else{
-            if($this->conn->errno==0)
+        } else {
+            if ($this->conn->errno == 0)
                 return 0;
             else
                 return $this->conn->error;
         }
     }
-    
-    function getAllPendingRides($userid){
+
+    function getTotalPendingRidesAdmin() {
+        $query = "select `status` from `tbl_ride` where `status` = '1'";
+        $result = $this->conn->query($query);
+        if ($this->conn->affected_rows > 0) {
+            return $result->num_rows;
+        } else {
+            if ($this->conn->errno == 0)
+                return 0;
+            else
+                return $this->conn->error;
+        }
+    }
+
+    function getAllPendingRides($userid) {
         $query = "select * from `" . self::SOURCE_TBL . "` where `status` = '1' and `customer_user_id`= '$userid'";
+
+        $result = $this->conn->query($query);
+
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $this->allRidesArr[] = $row;
+            }
+            return 200;
+        } else {
+            return -1;
+        }
+    }
+    
+    function getAllPendingRidesAdmin() {
+        $query = "select * from `" . self::SOURCE_TBL . "` where `status` = '1'";
 
         $result = $this->conn->query($query);
 
@@ -98,16 +141,44 @@ class tbl_ride extends Dbcon {
         $result = $this->conn->query($query);
         if ($this->conn->affected_rows > 0) {
             return $result->num_rows;
-        }else{
-            if($this->conn->errno==0)
+        } else {
+            if ($this->conn->errno == 0)
                 return 0;
             else
                 return $this->conn->error;
         }
     }
     
-    function getAllCancelledRides($userid){
+    function getTotalCancelledRidesAdmin() {
+        $query = "select `status` from `tbl_ride` where `status` = '0'";
+        $result = $this->conn->query($query);
+        if ($this->conn->affected_rows > 0) {
+            return $result->num_rows;
+        } else {
+            if ($this->conn->errno == 0)
+                return 0;
+            else
+                return $this->conn->error;
+        }
+    }
+
+    function getAllCancelledRides($userid) {
         $query = "select * from `" . self::SOURCE_TBL . "` where `status` = '0' and `customer_user_id`= '$userid'";
+
+        $result = $this->conn->query($query);
+
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $this->allRidesArr[] = $row;
+            }
+            return 200;
+        } else {
+            return -1;
+        }
+    }
+    
+    function getAllCancelledRidesAdmin() {
+        $query = "select * from `" . self::SOURCE_TBL . "` where `status` = '0'";
 
         $result = $this->conn->query($query);
 
@@ -126,16 +197,44 @@ class tbl_ride extends Dbcon {
         $result = $this->conn->query($query);
         if ($this->conn->affected_rows > 0) {
             return $result->fetch_assoc()['total_spent'];
-        }else{
-            if($this->conn->errno==0)
+        } else {
+            if ($this->conn->errno == 0)
                 return 0;
             else
                 return $this->conn->error;
         }
     }
     
-    function getAllTotalSpent($userid){
+    function getTotalSpentAdmin() {
+        $query = "select sum(`total_fare`) as `total_spent` from `tbl_ride` where `status` = '2'";
+        $result = $this->conn->query($query);
+        if ($this->conn->affected_rows > 0) {
+            return $result->fetch_assoc()['total_spent'];
+        } else {
+            if ($this->conn->errno == 0)
+                return 0;
+            else
+                return $this->conn->error;
+        }
+    }
+
+    function getAllTotalSpent($userid) {
         $query = "select * from `" . self::SOURCE_TBL . "` where `status` = '2' and `customer_user_id`= '$userid'";
+
+        $result = $this->conn->query($query);
+
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $this->allRidesArr[] = $row;
+            }
+            return 200;
+        } else {
+            return -1;
+        }
+    }
+    
+    function getAllTotalSpentAdmin() {
+        $query = "select * from `" . self::SOURCE_TBL . "` where `status` = '2'";
 
         $result = $this->conn->query($query);
 
@@ -154,15 +253,28 @@ class tbl_ride extends Dbcon {
         $result = $this->conn->query($query);
         if ($this->conn->affected_rows > 0) {
             return $result->num_rows;
-        }else{
-            if($this->conn->errno==0)
+        } else {
+            if ($this->conn->errno == 0)
                 return 0;
             else
                 return $this->conn->error;
         }
     }
     
-    function getAllTotalRides($userid){
+    function getTotalRidesAdmin() {
+        $query = "select `status` from `tbl_ride` where '1'";
+        $result = $this->conn->query($query);
+        if ($this->conn->affected_rows > 0) {
+            return $result->num_rows;
+        } else {
+            if ($this->conn->errno == 0)
+                return 0;
+            else
+                return $this->conn->error;
+        }
+    }
+
+    function getAllTotalRides($userid) {
         $query = "select * from `" . self::SOURCE_TBL . "` where `customer_user_id`= '$userid'";
 
         $result = $this->conn->query($query);
@@ -176,14 +288,24 @@ class tbl_ride extends Dbcon {
             return -1;
         }
     }
-    
-    function cancelRide($rideid){
-        $query = "update `".self::SOURCE_TBL."` set `status` = '0' where `ride_id`='$rideid'";
+
+    function cancelRide($rideid) {
+        $query = "update `" . self::SOURCE_TBL . "` set `status` = '0' where `ride_id`='$rideid'";
         $this->conn->query($query);
-        if($this->conn->affected_rows>0){
+        if ($this->conn->affected_rows > 0) {
             return 200;
-        }else{
+        } else {
             return $this->conn->error;
+        }
+    }
+
+    function getRide($rideid) {
+        $query = "select * from `" . self::SOURCE_TBL . "` where `ride_id` = $rideid";
+        $result = $this->conn->query($query);
+        if ($this->conn->affected_rows > 0) {
+            return $result->fetch_assoc();
+        } else {
+            return -1;
         }
     }
 

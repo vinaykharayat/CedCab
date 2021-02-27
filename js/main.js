@@ -177,7 +177,7 @@ $("#bookButton").on("click", function (e) {
                     "\nDistance: " + response["distance"] + "kms" +
                     "\nTotal Fare: ₹" + response["totalFare"] +
                     "\nCabType: Ced " + response["cabType"] +
-                    "\nLuggage: " + $("#luggageDropdown option:selected").html()
+                    "\nLuggage: " + $("#luggageDropdown option:selected").html();
             $("#confirmDialog").modal("show");
         }
     });

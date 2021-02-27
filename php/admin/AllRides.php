@@ -31,7 +31,7 @@ include_once './layout/header.php';
                                         <img class="d-block mx-auto" src="/cedcab/images/icons/pending.png" width="128" height="120" alt="pending rides"/>
                                     </div>
                                 </div>
-                                <button id="showPending" class="btn my-3" style="width: 100%;background-color: #fbb031"><span id="pendingRides"></span> Pending Rides<br></button>
+                                <button value="admin" id="showPending" class="btn my-3" style="width: 100%;background-color: #fbb031"><span id="pendingRides"></span> Pending Rides<br></button>
                             </div>
                         </div>
                     </div>
@@ -44,9 +44,8 @@ include_once './layout/header.php';
                                     <div class="container-fluid align-self-center">
                                         <img class="d-block mx-auto" src="/cedcab/images/icons/cancel.png" width="128" height="120" alt="cancellled rides"/>
                                     </div>
-
                                 </div>
-                                <button id="showCancelled" class="btn my-3" style="width: 100%;background-color: #fbb031"><span id="cancelledRides"></span> Cancelled Rides</button>
+                                <button value="admin" id="showCancelled" class="btn my-3" style="width: 100%;background-color: #fbb031"><span id="cancelledRides"></span> Cancelled Rides</button>
                             </div>
                         </div>
                     </div>
@@ -61,7 +60,7 @@ include_once './layout/header.php';
                                     </div>
 
                                 </div>
-                                <button id="showTotalSpent" class="btn my-3" style="width: 100%;background-color: #fbb031"><span id="totalSpent"></span> Spent</button>
+                                <button value="admin" id="showTotalSpent" class="btn my-3" style="width: 100%;background-color: #fbb031"><span id="totalSpent"></span> Earned</button>
                             </div>
                         </div>
                     </div>
@@ -76,7 +75,7 @@ include_once './layout/header.php';
                                     </div>
 
                                 </div>
-                                <button id="showTotalRides" class="btn my-3" style="width: 100%;background-color: #fbb031"><span id="totalRides"></span> Total Rides</button>
+                                <button value="admin" id="showTotalRides" class="btn my-3" style="width: 100%;background-color: #fbb031"><span id="totalRides"></span> Total Rides</button>
                             </div>
                         </div>
                     </div>

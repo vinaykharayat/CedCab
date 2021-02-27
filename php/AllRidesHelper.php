@@ -27,7 +27,20 @@ if (isset($_POST["status"])) {
     }
 }
 
-if (isset($_POST["action"]) && $_POST["action"] == "getUserRideInfo") {
+if (isset($_POST["action"]) && $_POST["action"] == "getUserRideInfo" && isset($_POST["isAdmin"]) && $_POST["isAdmin"] != "") {
+    $ride = new tbl_ride();
+    $userRideInfo = array(
+        'pendingRides' => $ride->getTotalPendingRidesAdmin(),
+        'cancelledRides' => $ride->getTotalCancelledRidesAdmin(),
+        'totalSpent' => $ride->getTotalSpentAdmin(),
+        'totalRides' => $ride->getTotalRidesAdmin()
+    );
+    header('Content-Type: application/json');
+    print_r(json_encode($userRideInfo));
+    die();
+}
+
+if (isset($_POST["action"]) && $_POST["action"] == "getUserRideInfo" && $_POST["isAdmin"] == "") {
     $ride = new tbl_ride();
     $userid = $_SESSION["user"]["user_id"];
     $userRideInfo = array(
@@ -38,54 +51,96 @@ if (isset($_POST["action"]) && $_POST["action"] == "getUserRideInfo") {
     );
     header('Content-Type: application/json');
     print_r(json_encode($userRideInfo));
+    die();
 }
 
-if(isset($_POST["cancelRide"])) {
+if (isset($_POST["viewRide"])) {
+    $ride = new tbl_ride();
+    header('Content-Type: application/json');
+    print_r(json_encode($ride->getRide($_POST["viewRide"])));
+}
+
+if (isset($_POST["cancelRide"])) {
     $ride = new tbl_ride();
     $rideid = $_POST["cancelRide"];
-    
+
     echo $ride->cancelRide($rideid);
     die();
 }
 
 function getAllRides() {
     $ride = new tbl_ride();
+    if ($_POST["isAdmin"] == "") {
 
-    if ($ride->getAllRides($_SESSION["user"]["user_id"]) == 200) {
-        header('Content-Type: application/json');
-        print_r(json_encode($ride->getAllRidesArr()));
-    } else {
-        
+        if ($ride->getAllRides($_SESSION["user"]["user_id"]) == 200) {
+            header('Content-Type: application/json');
+            print_r(json_encode($ride->getAllRidesArr()));
+        } else {
+            
+        }
+    } else if ($_POST["isAdmin"] == "admin") {
+        if ($ride->getAllRidesAdmin() == 200) {
+            header('Content-Type: application/json');
+            print_r(json_encode($ride->getAllRidesArr()));
+        } else {
+            
+        }
     }
 }
 
 function getPendingRides() {
     $ride = new tbl_ride();
-
-    if ($ride->getAllPendingRides($_SESSION["user"]["user_id"]) == 200) {
-        header('Content-Type: application/json');
-        print_r(json_encode($ride->getAllRidesArr()));
-    } else {
-        
+    if ($_POST["isAdmin"] == "") {
+        if ($ride->getAllPendingRides($_SESSION["user"]["user_id"]) == 200) {
+            header('Content-Type: application/json');
+            print_r(json_encode($ride->getAllRidesArr()));
+        } else {
+            
+        }
+    } else if ($_POST["isAdmin"] == "admin") {
+        if ($ride->getAllPendingRidesAdmin() == 200) {
+            header('Content-Type: application/json');
+            print_r(json_encode($ride->getAllRidesArr()));
+        } else {
+            
+        }
     }
 }
 
 function getCancelledRides() {
     $ride = new tbl_ride();
-    if ($ride->getAllCancelledRides($_SESSION["user"]["user_id"]) == 200) {
-        header('Content-Type: application/json');
-        print_r(json_encode($ride->getAllRidesArr()));
-    } else {
-        
+    if ($_POST["isAdmin"] == "") {
+        if ($ride->getAllCancelledRides($_SESSION["user"]["user_id"]) == 200) {
+            header('Content-Type: application/json');
+            print_r(json_encode($ride->getAllRidesArr()));
+        } else {
+            
+        }
+    } else if ($_POST["isAdmin"] == "admin") {
+        if ($ride->getAllCancelledRidesAdmin() == 200) {
+            header('Content-Type: application/json');
+            print_r(json_encode($ride->getAllRidesArr()));
+        } else {
+            
+        }
     }
 }
 
 function getTotalSpent() {
     $ride = new tbl_ride();
-    if ($ride->getAllTotalSpent($_SESSION["user"]["user_id"]) == 200) {
-        header('Content-Type: application/json');
-        print_r(json_encode($ride->getAllRidesArr()));
-    } else {
-        
+    if ($_POST["isAdmin"] == "") {
+        if ($ride->getAllTotalSpent($_SESSION["user"]["user_id"]) == 200) {
+            header('Content-Type: application/json');
+            print_r(json_encode($ride->getAllRidesArr()));
+        } else {
+            
+        }
+    } else if ($_POST["isAdmin"] == "admin") {
+        if ($ride->getAllTotalSpentAdmin() == 200) {
+            header('Content-Type: application/json');
+            print_r(json_encode($ride->getAllRidesArr()));
+        } else {
+            
+        }
     }
 }
