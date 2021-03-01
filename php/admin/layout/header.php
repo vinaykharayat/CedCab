@@ -17,6 +17,7 @@
                     <li><a href="index.php">Home</a></li>
                     <li><a href="/cedcab/php/admin/AllUsers.php">Users</a></li>
                     <li><a href="/cedcab/php/admin/AllRides.php">All Rides</a></li>
+                    <li><a href="/cedcab/php/admin/Locations.php">Location settings</a></li>
                     <li><form style="display: inline" action="/cedcab/php/logout.php" method="post">
                             <input type="hidden" value="true" name="userLogout">
                             <button class="btn btn-danger" type="submit">Logout</button>

@@ -53,6 +53,44 @@ class tbl_location extends Dbcon {
         $result = $this->conn->query($query);
         return $result->fetch_assoc();
     }
+    
+    function getAllLocationsAdmin(){
+        $query = "select * from " . self::sourcetbl . " where 1";
+        $result = $this->conn->query($query);
+
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $this->locations[] = $row;
+            }
+            return 200;
+        } else {
+            return -1;
+        }
+    }
+    
+    function blockUnblockLocation($locationId, $blockLocation) {
+        if ($blockLocation == "true") {
+            $query = "update `" . self::sourcetbl . "` set `is_available`= '0' where `id`= '$locationId'";
+        } else {
+            $query = "update `" . self::sourcetbl . "` set `is_available`= '1' where `id`= '$locationId'";
+        }
+        $this->conn->query($query);
+        if($this->conn->affected_rows>0){
+            return 200;
+        }else{
+            return 500;
+        }
+    }
+    
+    function addNewLocation($locationName, $locationDistance, $locationStatus){
+        $query="insert into `".self::sourcetbl."` (`name`, `distance`, `is_available`) value('$locationName', '$locationDistance', '$locationStatus')";
+        $this->conn->query($query);
+        if($this->conn->affected_rows>0){
+            return 200;
+        }else{
+            return 500;
+        }
+    }
 
     function getId() {
         return $this->id;
