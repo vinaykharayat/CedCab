@@ -126,8 +126,8 @@ include_once './layout/header.php';
             <div class="form-group row mb-2 mx-2">
                 <select class="form-control" name="sortBy" id="selectSortBy">
                     <option value="value" selected="selected" disabled="disabled">Sort By</option>
-                    <option value="fare">Fare</option>
-                    <option value="date">Date</option>
+                    <option value="total_fare">Fare</option>
+                    <option value="ride_date">Date</option>
                 </select>
             </div>
 

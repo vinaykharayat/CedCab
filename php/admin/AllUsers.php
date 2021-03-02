@@ -65,8 +65,9 @@ include_once './layout/header.php';
 
                 tableData.textContent = response[i]["mobile"];
                 tableRow.appendChild(tableData.cloneNode(true));
+                
+                (response[i]["status"]==0)?tableData.textContent = "Blocked":tableData.textContent = "Active";
 
-                tableData.textContent = response[i]["status"];
                 tableRow.appendChild(tableData.cloneNode(true));
 
                 tableData.textContent = response[i]["profilePic"];

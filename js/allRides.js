@@ -229,7 +229,13 @@ function getData(status, showStatus, isAdmin) {
 
                 if (showStatus) {
                     $("#rideStatus").show();
-                    tableData.textContent = response[i]["status"];
+                    if(response[i]["status"] == 0){
+                        tableData.textContent = "Cancelled";
+                    }else if(response[i]["status"] == 1){
+                        tableData.textContent = "Pending";
+                    }else if(response[i]["status"] == 2){
+                        tableData.textContent = "Completed";
+                    }
                     tableRow.appendChild(tableData.cloneNode(true));
                 } else {
                     $("#rideStatus").hide();

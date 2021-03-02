@@ -200,7 +200,7 @@ if (isset($_SESSION["rideInfoWithId"]) && !isset($_POST["confirmBooking"])) {
                     <option value="micro">Ced Micro</option>
                     <option value="mini">Ced Mini</option>
                     <option value="suv">Ced Suv</option>
-                    <option value="royale">Ced Royale</option>
+                    <option value="royal">Ced Royale</option>
                 </select>
             </div>
         </form>
