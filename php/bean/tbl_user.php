@@ -103,10 +103,46 @@ class tbl_user extends Dbcon {
             $query = "update `" . self::sourcetbl . "` set `status`= '1' where `user_id`= '$userId'";
         }
         $this->conn->query($query);
-        if($this->conn->affected_rows>0){
+        if ($this->conn->affected_rows > 0) {
             return 200;
-        }else{
+        } else {
             return 500;
+        }
+    }
+
+    function updateUserProfile($userid, $newName, $newMobile) {
+        $query = "update `" . self::sourcetbl . "` set `name` = '$newName', `mobile`='$newMobile' where `user_id`= '$userid'";
+        $this->conn->query($query);
+        if ($this->conn->affected_rows > 0) {
+            return 200;
+        } else {
+            return 500;
+        }
+    }
+
+    function changePassword($userid, $oldPassword, $newPassword) {
+        $query = "select `password` from `" . self::sourcetbl . "` where `user_id` = '$userid' and `password` = md5($oldPassword)";
+        $this->conn->query($query);
+        if ($this->conn->affected_rows > 0) {
+            $query = "update `" . self::sourcetbl . "` set `password` = md5($newPassword) where `user_id` = '$userid'";
+            $this->conn->query($query);
+            if ($this->conn->affected_rows > 0) {
+                return "200";
+            } else {
+                return "500";
+            }
+        } else {
+            return "403";
+        }
+    }
+
+    function changeProfilePic($userId, $profilePicPath) {
+        $query = "update `" . self::sourcetbl . "` set `profilePic` = '$profilePicPath' where `user_id`= '$userId'";
+        $res = $this->conn->query($query);
+        if ($res->num_rows > 0) {
+            return 200;
+        } else {
+            return $res;
         }
     }
 

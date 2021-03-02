@@ -1,5 +1,6 @@
 <?php
 include_once './layout/header.php';
+
 ?>
 <main class="container-fluid">
     <div class="modal fade" id="viewRideDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="false">
@@ -94,19 +95,19 @@ include_once './layout/header.php';
             <div class="form-group row mb-2 mx-2">
                 <div class="col-sm-10 col">
                     <select class="form-control" name="SelectedMonth" id="selectMonth">
-                        <option value="value" selected="selected" disabled="disabled">Select Month</option>
-                        <option value="value">January</option>
-                        <option value="value">February</option>
-                        <option value="value">March</option>
-                        <option value="value">April</option>
-                        <option value="value">May</option>
-                        <option value="value">June</option>
-                        <option value="value">July</option>
-                        <option value="value">August</option>
-                        <option value="value">September</option>
-                        <option value="value">October</option>
-                        <option value="value">November</option>
-                        <option value="value">December</option>
+                        <option value="0" selected="selected" disabled="disabled">Select Month</option>
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
                     </select>
                 </div>
             </div>
@@ -114,10 +115,10 @@ include_once './layout/header.php';
                 <div class="col-sm-10 col">
                     <select class="form-control" name="SelectedWeek" id="selectWeek">
                         <option value="value" selected="selected" disabled="disabled">Select week</option>
-                        <option value="value">1st Week</option>
-                        <option value="value">2nd Week</option>
-                        <option value="value">3rd Week</option>
-                        <option value="value">4th Week</option>
+                        <option value="1">1st Week</option>
+                        <option value="2">2nd Week</option>
+                        <option value="3">3rd Week</option>
+                        <option value="4">4th Week</option>
 
                     </select>
                 </div>
@@ -125,18 +126,18 @@ include_once './layout/header.php';
             <div class="form-group row mb-2 mx-2">
                 <select class="form-control" name="sortBy" id="selectSortBy">
                     <option value="value" selected="selected" disabled="disabled">Sort By</option>
-                    <option value="value">Fare</option>
-                    <option value="value">Date</option>
+                    <option value="fare">Fare</option>
+                    <option value="date">Date</option>
                 </select>
             </div>
 
             <div class="form-group row mb-2 mx-2">
                 <select class="form-control" name="sortBy" id="selectCabType">
                     <option value="value" selected="selected" disabled="disabled">CabType</option>
-                    <option value="value">Ced Micro</option>
-                    <option value="value">Ced Mini</option>
-                    <option value="value">Ced Suv</option>
-                    <option value="value">Ced Royale</option>
+                    <option value="micro">Ced Micro</option>
+                    <option value="mini">Ced Mini</option>
+                    <option value="suv">Ced Suv</option>
+                    <option value="royale">Ced Royale</option>
                 </select>
             </div>
         </form>

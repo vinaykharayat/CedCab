@@ -1,6 +1,69 @@
 <?php
 include_once './layout/header.php';
-?>
+session_start();
+include_once $_SERVER['DOCUMENT_ROOT'] . '/cedcab/php/bean/tbl_ride.php';
+if (isset($_POST["confirmBooking"]) && isset($_SESSION["rideInfoWithId"])) {
+    $user = $_SESSION["user"];
+    $rideInfo = $_SESSION["rideInfoWithId"];
+
+    $ride = new tbl_ride();
+    $ride->setFrom($rideInfo["pickupLocation"]);
+    $ride->setTo($rideInfo["dropLocation"]);
+    $ride->setTotal_distance($rideInfo["distance"]);
+    $ride->setLuggage($rideInfo["luggage"]);
+    $ride->setTotal_fare($rideInfo["totalFare"]);
+    $ride->setCustomer_user_id($user["user_id"]);
+    $ride->setCabType($rideInfo["cabType"]);
+
+    $res = $ride->addNewRide();
+
+    if ($res == 200) {
+        unset($_SESSION["rideInfoWithId"]);
+        echo '200';
+        die();
+    } else if ($res != 404) {
+        unset($_SESSION["rideInfoWithId"]);
+        echo '404';
+        die();
+    } else {
+        print_r($res);
+        die();
+    }
+}
+include_once './layout/header.php';
+
+/* * *************************************************************
+ * If user has logged in and promoted to confirm old booking
+ * ************************************************************ */
+if (isset($_SESSION["rideInfoWithId"]) && !isset($_POST["confirmBooking"])) {
+
+    $rideInfo = $_SESSION["rideInfoWithId"];
+
+    $ride = new RideBean();
+    $pickupLocation = $ride->getLocationNameDistance($rideInfo["pickupLocation"]);
+    $dropLocation = $ride->getLocationNameDistance($rideInfo["dropLocation"]);
+    ?>
+    <script>
+        $.ajax({
+            url: "index.php",
+            method: "post",
+            data: {"confirmBooking": "true"},
+            success: function (response) {
+                if (response == 200) {
+                    let res = confirm("Ride Booked successfully");
+                    if (res) {
+                        location.reload();
+                    }
+                } else {
+                    alert("Something went wrong!\nTechnical Details: " + response);
+                }
+            }
+
+        });
+    </script>
+    <?php
+}
+?> 
 <main class="container-fluid">
     <div class="modal fade" id="viewRideDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="false">
         <div class="modal-dialog" role="document">
@@ -95,49 +158,49 @@ include_once './layout/header.php';
             <div class="form-group row mb-2 mx-2">
                 <div class="col-sm-10 col">
                     <select class="form-control" name="SelectedMonth" id="selectMonth">
-                        <option value="value" selected="selected" disabled="disabled">Select Month</option>
-                        <option value="value">January</option>
-                        <option value="value">February</option>
-                        <option value="value">March</option>
-                        <option value="value">April</option>
-                        <option value="value">May</option>
-                        <option value="value">June</option>
-                        <option value="value">July</option>
-                        <option value="value">August</option>
-                        <option value="value">September</option>
-                        <option value="value">October</option>
-                        <option value="value">November</option>
-                        <option value="value">December</option>
+                        <option selected="selected" disabled="disabled">Select Month</option>
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
                     </select>
                 </div>
             </div>
             <div class="form-group row mb-2 mx-2">
                 <div class="col-sm-10 col">
                     <select class="form-control" name="SelectedWeek" id="selectWeek">
-                        <option value="value" selected="selected" disabled="disabled">Select week</option>
-                        <option value="value">1st Week</option>
-                        <option value="value">2nd Week</option>
-                        <option value="value">3rd Week</option>
-                        <option value="value">4th Week</option>
+                        <option selected="selected" disabled="disabled">Select week</option>
+                        <option value="1">1st Week</option>
+                        <option value="2">2nd Week</option>
+                        <option value="3">3rd Week</option>
+                        <option value="4">4th Week</option>
 
                     </select>
                 </div>
             </div>
             <div class="form-group row mb-2 mx-2">
                 <select class="form-control" name="sortBy" id="selectSortBy">
-                    <option value="value" selected="selected" disabled="disabled">Sort By</option>
-                    <option value="value">Fare</option>
-                    <option value="value">Date</option>
+                    <option selected="selected" disabled="disabled">Sort By</option>
+                    <option value="total_fare">Fare</option>
+                    <option value="ride_date">Date</option>
                 </select>
             </div>
 
             <div class="form-group row mb-2 mx-2">
                 <select class="form-control" name="sortBy" id="selectCabType">
-                    <option value="value" selected="selected" disabled="disabled">CabType</option>
-                    <option value="value">Ced Micro</option>
-                    <option value="value">Ced Mini</option>
-                    <option value="value">Ced Suv</option>
-                    <option value="value">Ced Royale</option>
+                    <option selected="selected" disabled="disabled">CabType</option>
+                    <option value="micro">Ced Micro</option>
+                    <option value="mini">Ced Mini</option>
+                    <option value="suv">Ced Suv</option>
+                    <option value="royale">Ced Royale</option>
                 </select>
             </div>
         </form>

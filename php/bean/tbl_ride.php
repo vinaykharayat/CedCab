@@ -60,7 +60,7 @@ class tbl_ride extends Dbcon {
             return -1;
         }
     }
-    
+
     function getAllRidesAdmin() {
         $query = "select * from `" . self::SOURCE_TBL . "` where '1'";
 
@@ -120,7 +120,7 @@ class tbl_ride extends Dbcon {
             return -1;
         }
     }
-    
+
     function getAllPendingRidesAdmin() {
         $query = "select * from `" . self::SOURCE_TBL . "` where `status` = '1'";
 
@@ -148,7 +148,7 @@ class tbl_ride extends Dbcon {
                 return $this->conn->error;
         }
     }
-    
+
     function getTotalCancelledRidesAdmin() {
         $query = "select `status` from `tbl_ride` where `status` = '0'";
         $result = $this->conn->query($query);
@@ -176,7 +176,7 @@ class tbl_ride extends Dbcon {
             return -1;
         }
     }
-    
+
     function getAllCancelledRidesAdmin() {
         $query = "select * from `" . self::SOURCE_TBL . "` where `status` = '0'";
 
@@ -204,7 +204,7 @@ class tbl_ride extends Dbcon {
                 return $this->conn->error;
         }
     }
-    
+
     function getTotalSpentAdmin() {
         $query = "select sum(`total_fare`) as `total_spent` from `tbl_ride` where `status` = '2'";
         $result = $this->conn->query($query);
@@ -232,7 +232,7 @@ class tbl_ride extends Dbcon {
             return -1;
         }
     }
-    
+
     function getAllTotalSpentAdmin() {
         $query = "select * from `" . self::SOURCE_TBL . "` where `status` = '2'";
 
@@ -260,7 +260,7 @@ class tbl_ride extends Dbcon {
                 return $this->conn->error;
         }
     }
-    
+
     function getTotalRidesAdmin() {
         $query = "select `status` from `tbl_ride` where '1'";
         $result = $this->conn->query($query);
@@ -306,6 +306,43 @@ class tbl_ride extends Dbcon {
             return $result->fetch_assoc();
         } else {
             return -1;
+        }
+    }
+
+    function getSingleFilteredData($sortValue, $sort_type, $rideStatus) {
+        switch ($sort_type) {
+            case "month":
+                if ($rideStatus == -1) {
+                    $query = "select * from `" . self::SOURCE_TBL . "` where month(`ride_date`)= '$sortValue' order by `ride_date`";
+                } else {
+                    $query = "select * from `" . self::SOURCE_TBL . "` where month(`ride_date`)= '$sortValue' and `status` = '$rideStatus' order by `ride_date`";
+                }
+                break;
+            case "week":
+                if ($rideStatus == -1) {
+                    $query = "select * from `" . self::SOURCE_TBL . "` where week(`ride_date`)=''$sortValue' order by `ride_date`";
+                } else {
+                    $query = "select * from `" . self::SOURCE_TBL . "` where week(`ride_date`)=''$sortValue' and `status` = '$rideStatus' order by `ride_date`";
+                }
+                break;
+            case "total_fare":
+                $query = "select * from `" . self::SOURCE_TBL . "` order by `$sort_type`";
+                break;
+            case "ride_date":
+                $query = "select * from `" . self::SOURCE_TBL . "` order by `$sort_type`";
+                break;
+            default:
+                $query = "select * from `" . self::SOURCE_TBL . "` where `cabtype`= $sort_type";
+                break;
+        }
+        $res = $this->conn->query($query);
+        if ($this->conn->affected_rows > 0) {
+            while ($row = $res->fetch_assoc()) {
+                $this->allRidesArr[] = $row;
+            }
+            return 200;
+        } else {
+            return 500;
         }
     }
 
