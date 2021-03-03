@@ -25,7 +25,7 @@ include_once './layout/header.php';
                                 <input type="text" class="form-control mx-1" id="newLocationDistance" placeholder="100, 200, etc." required="required" name="locationDistance">
                             </div>
                         </div>
-                        
+
                         <div class="form-group row">
                             <label for="inputPassword" class="col-sm-2 col-form-label mx-1">Status</label>
                             <div class="col-sm-10">
@@ -97,8 +97,10 @@ include_once './layout/header.php';
 
                 tableData.textContent = response[i]["distance"];
                 tableRow.appendChild(tableData.cloneNode(true));
+                
+                (response[i]["is_available"] == 1)?tableData.textContent="Active":tableData.textContent="Blocked";
 
-                tableData.textContent = response[i]["is_available"];
+//                tableData.textContent = response[i]["is_available"];
                 tableRow.appendChild(tableData.cloneNode(true));
 
 
@@ -109,15 +111,21 @@ include_once './layout/header.php';
                     Btn.innerText = "Unblock Location";
                     tableRow.appendChild(Btn.cloneNode(true));
                 } else {
-                    BtnAttr.value = "btn btn-danger mx-2 my-2";
+                    BtnAttr.value = "btn btn-secondary mx-2 my-2 blockButton";
                     Btn.setAttributeNode(BtnAttr);
                     Btn.innerText = "Block Location";
                     tableRow.appendChild(Btn.cloneNode(true));
 
                 }
+
+                BtnAttr.value = "btn btn-danger mx-2 my-2 deleteButton";
+                Btn.setAttributeNode(BtnAttr);
+                Btn.innerText = "Delete Location";
+                tableRow.appendChild(Btn.cloneNode(true));
+
                 tableBody.appendChild(tableRow);
             }
-            $("#tableBody .btn-danger").on("click", function () {
+            $("#tableBody .blockButton").on("click", function () {
 
                 let res = confirm("Are you sure?");
                 if (res) {
@@ -125,6 +133,16 @@ include_once './layout/header.php';
                     blockLocation(locationId, true);
                 }
             });
+            
+            $("#tableBody .deleteButton").on("click", function () {
+
+                let res = confirm("Are you sure?");
+                if (res) {
+                    let locationId = $(this).parent().first().attr("id");
+                    deleteLocation(locationId, true);
+                }
+            });
+            
             $("#tableBody .btn-success").on("click", function () {
 
                 let res = confirm("Are you sure?");
@@ -162,32 +180,59 @@ include_once './layout/header.php';
             }
         });
     }
+    
+    function deleteLocation(locationId, blockLocation) {
+        $.ajax({
+            url: "../AllLocationsHelper.php",
+            method: 'post',
+            data: {
+                'locationId': locationId,
+                'deleteLocation': blockLocation
+            },
+            success: function (response) {
+                let res;
+                if (response == 200) {
+                    if (blockLocation) {
+                        res = confirm("Location deleted Successfully!");
+
+                    } else {
+                        res = confirm("Something went wrong!");
+                    }
+                    if (res) {
+                        location.reload();
+                    } else {
+                        location.reload();
+                    }
+                }
+            }
+        });
+    }
 
     $("#addLocation").on("click", function () {
         $("#addNewLocation").modal("show");
     });
-    
-    $("#newLocationForm").on("submit", function(e){
+
+    $("#newLocationForm").on("submit", function (e) {
         e.preventDefault();
         $.ajax({
-            url:"../AllLocationsHelper.php",
-            method:"post",
+            url: "../AllLocationsHelper.php",
+            method: "post",
             data: $("#newLocationForm").serialize(),
-            success: function(response){
-                if(response == 200){
+            success: function (response) {
+                if (response == 200) {
                     let res = confirm("Location added Successfully!");
-                    if(res){
+                    if (res) {
                         location.reload();
-                    }else{
+                    } else {
                         location.reload();
                     }
-                }else{
+                } else {
                     alert("Couldn't add Location!");
                 }
             }
         })
-    });    
-    
+    });
+
 </script>
 
 <?php

@@ -32,7 +32,6 @@ if (!isset($_SESSION['user']) || $_SESSION["user"]["is_admin"] == 1) {
             <nav id="mainNavigation" class="navigation">
                 <ul>
                     <li><a href="/cedcab/index.php">Home</a></li>
-                    <li><a href="../../contact.php">Contact</a></li>
                     <li><a href="/cedcab/php/user/AllRides.php">All Rides</a></li>
                     <li><a href="/cedcab/php/user/index.php">Profile</a></li>
                     <li><form style="display: inline" action="/cedcab/php/logout.php" method="post">

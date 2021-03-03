@@ -144,7 +144,7 @@ function getFilteredData(arr, action, isAdmin) {
                 tableRow.appendChild(Btn.cloneNode(true));
                 if (response[i]["status"] == "1") {
                     if (isAdmin == "admin") {
-                        BtnAttr.value = "btn btn-success mx-2 my-2";
+                        BtnAttr.value = "btn btn-success mx-2 my-2 approveButton";
                         Btn.setAttributeNode(BtnAttr);
                         Btn.innerText = "Approve";
                         tableRow.appendChild(Btn.cloneNode(true));
@@ -163,6 +163,15 @@ function getFilteredData(arr, action, isAdmin) {
                 if (res) {
                     let rideId = $(this).parent().first().attr("id");
                     cancelRide(rideId);
+                }
+            });
+            
+            $("#tableBody .approveButton").on("click", function () {
+                console.log("here")
+                let res = confirm("Are you sure?\nThis cannot be undone!");
+                if (res) {
+                    let rideId = $(this).parent().first().attr("id");
+                    approveRide(rideId);
                 }
             });
 
@@ -247,7 +256,7 @@ function getData(status, showStatus, isAdmin) {
                 tableRow.appendChild(Btn.cloneNode(true));
                 if (response[i]["status"] == "1") {
                     if (isAdmin == "admin") {
-                        BtnAttr.value = "btn btn-success mx-2 my-2";
+                        BtnAttr.value = "btn btn-success mx-2 my-2 approveButton";
                         Btn.setAttributeNode(BtnAttr);
                         Btn.innerText = "Approve";
                         tableRow.appendChild(Btn.cloneNode(true));
@@ -266,6 +275,15 @@ function getData(status, showStatus, isAdmin) {
                 if (res) {
                     let rideId = $(this).parent().first().attr("id");
                     cancelRide(rideId);
+                }
+            });
+            
+            $("#tableBody .approveButton").on("click", function () {
+                console.log("here")
+                let res = confirm("Are you sure?\nThis cannot be undone!");
+                if (res) {
+                    let rideId = $(this).parent().first().attr("id");
+                    approveRide(rideId);
                 }
             });
 
@@ -291,6 +309,28 @@ function cancelRide(rideId) {
                 } else {
                     location.reload();
                 }
+            }
+        }
+    });
+}
+
+function approveRide(rideId) {
+    $.ajax({
+        url: "../AllRidesHelper.php",
+        method: "post",
+        data: {"approveRide": rideId,
+            'isAdmin': $("#showPending").val()},
+        success: function (response) {
+            if (response == 200) {
+                let res = confirm("Ride Approved Successfully!");
+                if (res) {
+                    location.reload();
+                } else {
+                    location.reload();
+                }
+            }else{
+                alert("Something went wrong!");
+                location.reload();
             }
         }
     });

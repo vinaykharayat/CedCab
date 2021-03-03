@@ -7,30 +7,35 @@ session_start();
  * *********************************************************************** */
 include_once $_SERVER['DOCUMENT_ROOT'] . '/cedcab/php/bean/tbl_ride.php';
 if (isset($_POST["confirmBooking"]) && isset($_SESSION["rideInfoWithId"])) {
-    $user = $_SESSION["user"];
-    $rideInfo = $_SESSION["rideInfoWithId"];
+    if ($_POST["confirmBooking"] == "true") {
+        $user = $_SESSION["user"];
+        $rideInfo = $_SESSION["rideInfoWithId"];
 
-    $ride = new tbl_ride();
-    $ride->setFrom($rideInfo["pickupLocation"]);
-    $ride->setTo($rideInfo["dropLocation"]);
-    $ride->setTotal_distance($rideInfo["distance"]);
-    $ride->setLuggage($rideInfo["luggage"]);
-    $ride->setTotal_fare($rideInfo["totalFare"]);
-    $ride->setCustomer_user_id($user["user_id"]);
-    $ride->setCabType($rideInfo["cabType"]);
+        $ride = new tbl_ride();
+        $ride->setFrom($rideInfo["pickupLocation"]);
+        $ride->setTo($rideInfo["dropLocation"]);
+        $ride->setTotal_distance($rideInfo["distance"]);
+        $ride->setLuggage($rideInfo["luggage"]);
+        $ride->setTotal_fare($rideInfo["totalFare"]);
+        $ride->setCustomer_user_id($user["user_id"]);
+        $ride->setCabType($rideInfo["cabType"]);
 
-    $res = $ride->addNewRide();
+        $res = $ride->addNewRide();
 
-    if ($res == 200) {
-        unset($_SESSION["rideInfoWithId"]);
-        echo '200';
-        die();
-    } else if ($res != 404) {
-        unset($_SESSION["rideInfoWithId"]);
-        echo '404';
-        die();
+        if ($res == 200) {
+            unset($_SESSION["rideInfoWithId"]);
+            echo '200';
+            die();
+        } else if ($res != 404) {
+            unset($_SESSION["rideInfoWithId"]);
+            echo '404';
+            die();
+        } else {
+            print_r($res);
+            die();
+        }
     } else {
-        print_r($res);
+        unset($_SESSION["rideInfoWithId"]);
         die();
     }
 }
@@ -70,7 +75,7 @@ if (isset($_SESSION["rideInfoWithId"]) && !isset($_POST["confirmBooking"])) {
                     Luggage: <?= $rideInfo["luggage"] ?><br>
                 </div>
                 <div class = "modal-footer">
-                    <button type = "button" class = "btn btn-secondary" data-dismiss = "modal">Close</button>
+                    <button id="closeButton" type = "button" class = "btn btn-secondary" data-dismiss = "modal">Discard Ride</button>
                     <button id = "confirmBooking2" type = "button" class = "btn btn-primary" style = "border:0;background-color: #fbb031">Confirm Booking</button>
                 </div>
             </div>
@@ -93,6 +98,18 @@ if (isset($_SESSION["rideInfoWithId"]) && !isset($_POST["confirmBooking"])) {
                     } else {
                         alert("Something went wrong!\nTechnical Details: " + response);
                     }
+                }
+
+            });
+        });
+        $("#closeButton").on("click", function () {
+            $.ajax({
+                url: "index.php",
+                method: "post",
+                data: {"confirmBooking": "false"},
+                success: function (response) {
+                    alert("Ride Cancelled!");
+                    location.reload();
                 }
 
             });
@@ -208,22 +225,22 @@ if (isset($_SESSION["rideInfoWithId"]) && !isset($_POST["confirmBooking"])) {
         let formData = new FormData();
         formData.append('imgupload', $("#imgupload")[0].files[0]);
         $.ajax({
-            url:"../AllUsersHelper.php",
-            method:"post",
+            url: "../AllUsersHelper.php",
+            method: "post",
             enctype: 'multipart/form-data',
             contentType: false,
             cache: false,
             processData: false,
             data: formData,
-            success: function(response){
-                if(response==200){
+            success: function (response) {
+                if (response == 200) {
                     alert("Image updated successfully!");
                     location.reload();
                 }
             }
         });
         let res1 = $(this).val();
-        console.log("here"+res1);
+        console.log("here" + res1);
     });
 
     $("#updatePasswordForm").on("submit", function (e) {

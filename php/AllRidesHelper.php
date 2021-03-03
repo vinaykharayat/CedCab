@@ -68,6 +68,14 @@ if (isset($_POST["cancelRide"])) {
     die();
 }
 
+if (isset($_POST["approveRide"])) {
+    $ride = new tbl_ride();
+    $rideid = $_POST["approveRide"];
+
+    echo $ride->approveRide($rideid);
+    die();
+}
+
 function getAllRides() {
     $ride = new tbl_ride();
     if ($_POST["isAdmin"] == "") {

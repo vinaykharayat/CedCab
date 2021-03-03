@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-require_once $_SERVER['DOCUMENT_ROOT'].'/cedcab/php/dao/Dbcon.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/cedcab/php/dao/Dbcon.php';
 
 class tbl_location extends Dbcon {
 
@@ -17,11 +17,10 @@ class tbl_location extends Dbcon {
     private $distance;
     private $is_available;
     private $locations;
-    
+
     function __construct() {
         $this->getConn();
     }
-
 
     function getConn() {
         $this->createConnection();
@@ -53,8 +52,8 @@ class tbl_location extends Dbcon {
         $result = $this->conn->query($query);
         return $result->fetch_assoc();
     }
-    
-    function getAllLocationsAdmin(){
+
+    function getAllLocationsAdmin() {
         $query = "select * from " . self::sourcetbl . " where 1";
         $result = $this->conn->query($query);
 
@@ -67,7 +66,7 @@ class tbl_location extends Dbcon {
             return -1;
         }
     }
-    
+
     function blockUnblockLocation($locationId, $blockLocation) {
         if ($blockLocation == "true") {
             $query = "update `" . self::sourcetbl . "` set `is_available`= '0' where `id`= '$locationId'";
@@ -75,19 +74,29 @@ class tbl_location extends Dbcon {
             $query = "update `" . self::sourcetbl . "` set `is_available`= '1' where `id`= '$locationId'";
         }
         $this->conn->query($query);
-        if($this->conn->affected_rows>0){
+        if ($this->conn->affected_rows > 0) {
             return 200;
-        }else{
+        } else {
             return 500;
         }
     }
-    
-    function addNewLocation($locationName, $locationDistance, $locationStatus){
-        $query="insert into `".self::sourcetbl."` (`name`, `distance`, `is_available`) value('$locationName', '$locationDistance', '$locationStatus')";
+
+    function deleteLocation($locationId) {
+        $query = "DELETE FROM `". self::sourcetbl ."` WHERE `id` = '$locationId'";
         $this->conn->query($query);
-        if($this->conn->affected_rows>0){
+        if ($this->conn->affected_rows > 0) {
             return 200;
-        }else{
+        } else {
+            return 500;
+        }
+    }
+
+    function addNewLocation($locationName, $locationDistance, $locationStatus) {
+        $query = "insert into `" . self::sourcetbl . "` (`name`, `distance`, `is_available`) value('$locationName', '$locationDistance', '$locationStatus')";
+        $this->conn->query($query);
+        if ($this->conn->affected_rows > 0) {
+            return 200;
+        } else {
             return 500;
         }
     }

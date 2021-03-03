@@ -299,6 +299,16 @@ class tbl_ride extends Dbcon {
             return $this->conn->error;
         }
     }
+    
+    function approveRide($rideid) {
+        $query = "update `" . self::SOURCE_TBL . "` set `status` = '2' where `ride_id` = '$rideid'";
+        $this->conn->query($query);
+        if ($this->conn->affected_rows > 0) {
+            return 200;
+        } else {
+            return $this->conn->error;
+        }
+    }
 
     function getRide($rideid) {
         $query = "select * from `" . self::SOURCE_TBL . "` where `ride_id` = $rideid";

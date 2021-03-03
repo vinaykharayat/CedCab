@@ -27,6 +27,16 @@ if (isset($_POST["blockLocation"])) {
     }
 }
 
+if (isset($_POST["deleteLocation"])) {
+    $locationsObj = new tbl_location();
+    $res = $locationsObj->deleteLocation($_POST["locationId"]);
+    if ($res == 200) {
+        die("200");
+    } else {
+        die("500");
+    }
+}
+
 if (isset($_POST["locationName"])) {
     $locationsObj = new tbl_location();
     $res = $locationsObj->addNewLocation(filter_input(INPUT_POST, "locationName"), filter_input(INPUT_POST, "locationDistance"), filter_input(INPUT_POST, "locationStatus"));
