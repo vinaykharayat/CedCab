@@ -1,3 +1,20 @@
+<?php
+session_start();
+
+require_once $_SERVER['DOCUMENT_ROOT'] . '/cedcab/php/bean/RideBean.php';
+
+include_once $_SERVER['DOCUMENT_ROOT'] . '/cedcab/php/bean/tbl_ride.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/cedcab/php/bean/tbl_user.php';
+
+if (!isset($_SESSION['user']) || $_SESSION["user"]["is_admin"] != 1) {
+    ?>
+    <h1>403: Forbidden</h1>
+    <?php
+    header("Location: ../../index.php");
+    die();
+}
+
+?>
 <!DOCTYPE html>
 <html>
     <head>
